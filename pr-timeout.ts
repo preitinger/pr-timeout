@@ -1,6 +1,7 @@
 export default function timeout(timeoutMs: number, signal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
         function handleAbort() {
+            clearTimeout(to);
             signal.removeEventListener('abort', handleAbort);
             reject(new Error('AbortError'))
         }

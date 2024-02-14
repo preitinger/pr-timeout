@@ -74,10 +74,14 @@ describe('timeout provides an abortable promise that is resolved after some mill
         await jest.advanceTimersByTimeAsync(timeoutMs * 0.5);
         expect(promiseChecker.hasResolved()).toBe(false);
         expect(promiseChecker.hasRejected()).toBe(false);
+        console.log('before abort');
         abortController.abort();
+        console.log('after abort');
         await jest.advanceTimersByTimeAsync(1);
         expect(promiseChecker.hasResolved()).toBe(false);
         expect(promiseChecker.hasRejected()).toBe(true);
+
+        await jest.advanceTimersByTimeAsync(timeoutMs);
 
         expect(promise).rejects.toThrow('AbortError');
         try {
@@ -87,6 +91,9 @@ describe('timeout provides an abortable promise that is resolved after some mill
             const error = reason as Error;
             expect(error.message).toBe('AbortError');
         }
+
+        console.log('At the end: hasResolved()', promiseChecker.hasResolved())
+        console.log('At the end: hasRejected()', promiseChecker.hasRejected())
     })
 
     it('tidies up abort event listeners on resolution', async () => {
