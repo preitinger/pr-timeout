@@ -1,3 +1,3 @@
 # pr-timeout
 
-Mini API for a timeout promise abortable by an AbortController in typescript
+Abortable timeout promise in typescript
