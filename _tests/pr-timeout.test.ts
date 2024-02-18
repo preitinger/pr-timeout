@@ -1,4 +1,4 @@
-import FixedAbortController from "../../FixedAbortController"
+import FixedAbortController from "../../user-management-client/FixedAbortController"
 import PromiseChecker from "../../pr-test-utils/PromiseChecker";
 import timeout from "../pr-timeout";
 
@@ -110,5 +110,13 @@ describe('timeout provides an abortable promise that is resolved after some mill
     it('tidies up abort event listeners on rejection', async () => {
         console.warn('Unknown how to be implemented. Seems to be testable only interactively using breakpoints and browser inspection tools');
 
+    })
+
+    test('result', async () => {
+        const result = 42;
+        const abortController = new FixedAbortController();
+        const prom = timeout(100, abortController.signal, result);
+        jest.advanceTimersByTime(100);
+        expect(await prom).toBe(42);
     })
 })
